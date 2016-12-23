@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="clearfix">
+      <form class="form-horizontal left-date" role="form" onsubmit="return false;">
+        <div class="form-group">
+          <label class="control-label col-sm-4">Start <i class="fa fa-calendar"></i></label>
+          <div class="col-sm-8">
+            {{date-picker date=start format="MM-DD-YYYY" valueFormat="YYYY MM DD" class="form-control date"}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="clearfix">
+      <form class="form-horizontal right-date" role="form" onsubmit="return false;">
+        <div class="form-group">
+          <label class="control-label col-sm-4">Stop <i class="fa fa-calendar"></i></label>
+          <div class="col-sm-8">
+            {{date-picker date=stop format="MM-DD-YYYY" valueFormat="YYYY MM DD" class="form-control date"}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

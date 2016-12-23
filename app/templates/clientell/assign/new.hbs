@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-sm-4">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <p>Below are the locations available to send secret shoppers, click one to get started.</p>
+            <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnMoreModal'}}>Learn More</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Locations</h3>
+            </div>
+          {{#if this.model.length}}
+              <table class="table table-striped">
+                  <thead>
+                  <tr>
+                      <th>Name</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {{#each r in this.model}}
+                      <tr>
+                          <td class="col-sm-12">
+                              <a href="javascript:void(0);" {{action 'selectActiveRestaurant' r}}>{{r.name}}</a>
+                          </td>
+                      </tr>
+                  {{/each}}
+                  </tbody>
+              </table>
+          {{else}}
+              <div class="panel-body">
+                  <strong>There's nothing here! Contact an administrator and ensure restaurants are set up.</strong>
+              </div>
+          {{/if}}
+        </div>
+    </div>
+    <div class="col-sm-8">
+      {{#unless newAssignment.restaurant}}
+          <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <strong>Damn son! </strong> You haven't picked a restaurant yet.  Click on one to get started.
+          </div>
+      {{else}}
+          <div class="alert alert-info alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              You're sending a shopper to <strong>{{newAssignment.restaurant.name}}</strong>.  Just fill out the form below and click <span class="label label-primary">Send Assignment</span> to send them their invite.
+          </div>
+          <div class="well">
+              <h2 style="margin-top:5px;">Survey</h2>
+              <div class="btn-group">
+                  <button type="button" {{bind-attr class=":btn newAssignment.survey:btn-primary:btn-default :dropdown-toggle"}} data-toggle="dropdown" aria-expanded="false">
+                    {{#if newAssignment.survey}}{{newAssignment.survey.name}}{{else}}Survey{{/if}} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    {{#each s in surveys.model}}
+                      {{#unless s.hidden}}
+                          <li><a href="javascript:void(0);" {{action 'selectActiveSurvey' s}}><strong>{{s.name}}</strong> ({{s.sections.length}} sections)</a></li>
+                      {{/unless}}
+                    {{/each}}
+                  </ul>
+              </div>
+              <h2 style="margin-top:20px;">Email Title</h2>
+            {{input type="text" value=newAssignment.emailTitle class="form-control" placeholder="Enter a Title Here"}}
+              <h2 style="margin-top:20px;">Email Content</h2>
+            {{textarea class="form-control" rows=10 value=newAssignment.emailText placeholder="This is the body of the email the shopper will recieve."}}
+              <p>Once you're ready to get back to us, fill out the satisfaction survey <a href="javascript:void(0);">here</a> to tell us how we did.</p>
+              <p>Oh, and you're going to need this code once you get to the website: <strong>CODE HERE</strong></p>
+              <p>Enjoy!</p>
+              <p>Your friends at {{newAssignment.restaurant.name}}</p>
+              <h2 style="margin-top:20px;">Recipient</h2>
+            {{input type="text" value=inputEmail class="form-control" placeholder="Enter the email address of the shopper here."}}
+              <button class="btn btn-lg btn-primary pull-right" style="margin-top:20px;" {{action 'saveNewAssignment'}}>Send Assignment</button>
+              <div class="clearfix"></div>
+          </div>
+      {{/unless}}
+    </div>
+</div>
+<div id="learn-more-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Help</h4>
+            </div>
+            <div class="modal-body">
+                <p>Here's where you send out your surveys to shoppers.</p>
+                <p>First, click one of the restaurants below to choose where the shopper will be sent.</p>
+                <p>After that, simply pick the survey you want to use and write out the email you want them to receive once they have opted in or out of the survey.</p>
+                <p>Before they receive it, they'll be asked yo 'opt in' or 'opt out' to the assignment, and you will be notified of their decision via email.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

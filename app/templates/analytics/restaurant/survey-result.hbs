@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <h1>Results for {{model.assignment.survey.name}} <small>Taken on {{model.formattedDate}}</small></h1>
+    </div>
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>You're looking at the answers {{#if auth.isAdmin}}<em>{{model.assignment.shopper.email}}</em>{{else}}a shopper{{/if}} gave for {{model.assignment.restaurant.name}}.</h4>
+      <p>Each section in the survey and the shopper's answers appear below.</p>
+      <p><button class="btn btn-default" {{action "showLearnMoreModal" on="click"}}>Learn more</button></p>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Section grades for this survey</h3>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead><tr><th>#</th><th>Subcategory</th><th>Questions</th><th>Grade</th></tr></thead>
+        <tbody>
+          {{#each rg in model.orderedResponseGroups}}
+            <tr><td>{{rg.position}}</td><td>{{#skip-link anchor=rg.responseGroupHref}}{{rg.subcategory.name}}{{/skip-link}}</td><td>{{rg.responses.length}}</td><td {{bind-attr style=rg.letterGradeBackgroundColorCssStyle}}>{{rg.letterGrade}}</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-offset-1 col-sm-10">
+        {{bar-chart data=model.responseGroupGradesForBarChart tooltipText="% score for this section" showGrade=false percentageColorScale=true}}
+      </div>
+    </div>
+    {{#each rg in model.orderedResponseGroups}}
+    <div class="row">
+      <div class="col-sm-12">
+        <div {{bind-attr id=rg.responseGroupId}}>
+          <table class="table table-bordered table-striped">
+            <caption>{{rg.subcategory.name}}</caption>
+            <thead>
+              <tr><th {{bind-attr class="sortByScore::active"}}><a {{action 'toggleSortByScore'}} href="javascript:void(0);"># <i class="fa fa-caret-down"></i></a></th><th>Question</th><th {{bind-attr class="sortByScore:active"}}><a {{action 'toggleSortByScore'}} href="javascript:void(0);">Answer <i class="fa fa-caret-down"></i></a></th></tr>
+            </thead>
+            <tbody>
+            {{#each r in rg.sortedResponses}}
+              <tr><td>{{r.position}}</td><td>{{r.question.text}}</td><td {{bind-attr style=r.answerColorCssStyle}}>{{#if r.question.openEnded}}"{{r.comment}}"{{else}}{{r.answer.text}}{{/if}}</td></tr>
+            {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+<div id="learn-more-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-category-label">Learn more about survey results</h4>
+      </div>
+      <div class="modal-body">
+        <p>Want to know a bit more about what you're looking at? Perfect!</p>
+        <p>This page shows summary data for the results of one survey (<b>"{{model.assignment.survey.name}}"</b>).</p>
+        <p><b>Missing results?</b> The <em>Start</em> and <em>Stop</em> fields at the top control which results are shown.</p>
+
+        <p>The first important piece of data is a table which summarizes the results for each section</p>
+        <table class="table table-bordered table-striped">
+          <thead><tr><th>Subcategory</th><th>Questions</th><th>Grade</th></tr></thead>
+          <tbody>
+          <tr><td>Appetizers</td><td>6</td><td>A+</td></tr>
+          </tbody>
+        </table>
+        <p>For each section in the completed survey, this table has a row detailing:</p>
+        <ol>
+          <li>The number of questions that were answered (in this survey)</li>
+          <li>The average grade for that section (in this survey)</li>
+        </ol>
+        <p><b>How did we get the grade?</b> Simple! Take the scores for all questions in that section and average them.</p>
+        <p><b>Looking for something more <em>visual</em>?</b> There's a bar chart with the same information showing section grades!</p>
+        <p><b>Want to see the answers?</b> No problem! Each section gets its own table showing the answers:</p>
+        <table class="table table-bordered table-striped">
+          <caption>Appetizers</caption>
+          <thead><tr><th><a href="javascript:void(0);"># <i class="fa fa-caret-down"></i></a></th><th>Question</th><th><a href="javascript:void(0);">Answer <i class="fa fa-caret-down"></i></a></th></tr></thead>
+          <tbody>
+          <tr><td>1</td><td>The flavor of your appetizer was excellent.</td><td style="background-color: #1a9641">Strongly agree</td></tr>
+          <tr><td>2</td><td>The portion size of your appetizer was excellent.</td><td style="background-color: #a6d96a">Agree</td></tr>
+          <tr><td>3</td><td>You would order this appetizer again.</td><td style="background-color: #1a9641">Strongly Agree</td></tr>
+          <tr><td>4</td><td>How was the spice level?</td><td style="background-color: #d9edf7">"Fantastic!"</td></tr>
+          </tbody>
+        </table>
+        <p>Each row of this table shows:</p>
+        <ul>
+          <li>The question number</li>
+          <li>The text of the question</li>
+          <li>The answer that the shopper chose. If it <span style="background-color: #d9edf7">"looks like this"</span>, it was an open-ended question.</li>
+        </ul>
+        <p>One last thing! You can change the order which answers are shown by clicking the <a href="javascript:void(0);"><i class="fa fa-caret-down"></i></a> on any of section table headers</p>
+        <table class="table table-bordered table-striped">
+          <thead><tr><th><a href="javascript:void(0);"># <i class="fa fa-caret-down"></i></a></th><th>Question</th><th><a href="javascript:void(0);">Answer <i class="fa fa-caret-down"></i></a></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <ul>
+          <li>The first column header, with <b><a href="javascript:void(0);"># <i class="fa fa-caret-down"></i></a></b>, will sort each row by the question number (so as they appeared in the original survey).</li>
+          <li>The last column header, with <b><a href="javascript:void(0);">Answer <i class="fa fa-caret-down"></i></a></b>, will sort each row by the answer given (with lower-scoring answers at the top).</li>
+        </ul>
+        <div class="alert alert-success"><strong>That's it!</strong> You know all there is to know about this page.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>

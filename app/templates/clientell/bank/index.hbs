@@ -1,0 +1,33 @@
+<div class="row" style="margin-top:20px;">
+  <div class="col-sm-12">
+    <ul class="nav nav-pills nav-justified">
+      <li role="presentation" class="active"><a href="javascript:void(0);">Bank</a></li>
+      <li role="presentation">{{#link-to 'clientell.create'}}Create{{/link-to}}</li>
+      <li role="presentation">{{#link-to 'clientell.create'}}Assign{{/link-to}}</li>
+    </ul>
+  </div>
+  <div class="col-sm-12" style="margin-top:20px;">
+    <ol class="breadcrumb">
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3">  
+    <div class="btn-group" style="margin: 0 0 20px; width: 100%">
+      {{#link-to 'clientell.wizard' class="btn btn-block btn-primary"}}Add Survey Content{{/link-to}}
+    </div>  
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Overview</h3>
+      </div>
+      <div class="panel-body">
+        <h4 style="text-align:center;"><span class="label label-primary">Categories: {{totalCategories.length}}</span></h4>
+        <h4 style="text-align:center;"><span class="label label-success">Subcategories: {{totalSubcategories.length}}</span></h4>
+        <h4 style="text-align:center;"><span class="label label-warning">Questions: {{totalQuestions.length}}</span></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-9">
+    {{outlet}}
+  </div>
+</div>

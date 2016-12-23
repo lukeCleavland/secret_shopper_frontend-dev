@@ -1,0 +1,13 @@
+{{render "navbar"}}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="clearfix">
+        <div class="pull-right date-range">
+          {{date-range-picker start=dateRange.start stop=dateRange.stop}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{outlet}}

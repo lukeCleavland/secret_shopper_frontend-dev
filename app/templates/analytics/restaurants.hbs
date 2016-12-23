@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>There are {{completedSurveys}} completed surveys across all {{model.length}} restaurants.</h4>
+      <p>Each restaurant card below lists the surveys completed and their grades. Click the letter grade to be taken directly to the answers given for that survey.</p>
+      <p><button class="btn btn-default" {{action "showLearnMoreModal" on="click"}}>Learn more</button></p>
+    </div>
+    {{#each r in model}}
+      {{restaurant-card restaurant=r action="deleteResult" isAdmin=auth.isAdmin}}
+    {{/each}}
+  </div>
+</div>
+<div id="learn-more-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-category-label">Learn more about the restaurant listing</h4>
+      </div>
+      <div class="modal-body">
+        <p>Welcome to analytics! It's a pleasure to tell you more about what you're looking at.</p>
+        <p>This page shows a "card" for each restaurant in the system. Turns out there are <b>{{model.length}}</b> restaurants in all.</p>
+        <p>The analytics page is meant to show you the results we get back from our shoppers. As a result comes in, you'll see it here.</p>
+        <p><b>Missing results?</b> The <em>Start</em> and <em>Stop</em> fields at the top control which results are shown.</p>
+        <p>The most important piece of each card is a table which summarizes the results so far:</p>
+        <table class="table table-bordered table-striped">
+          <thead><tr><th>Date</th><th>Name</th><th>Grade</th></tr></thead>
+          <tbody>
+          <tr><td>9/12/14</td><td><a href="javascript:void(0);">Craftsman Indoor Survey</a></td><td><a href="javascript:void(0);">A+</a></td></tr>
+          <tr><td>9/15/14</td><td><a href="javascript:void(0);">Craftsman Outdoor Survey</a></td><td><a href="javascript:void(0);">A+</a></td></tr>
+          <tr><td>10/12/14</td><td><a href="javascript:void(0);">Craftsman Indoor Survey</a></td><td><a href="javascript:void(0);">B+</a></td></tr>
+          <tr><td>11/12/14</td><td><a href="javascript:void(0);">Craftsman Indoor Survey</a></td><td><a href="javascript:void(0);">A-</a></td></tr>
+          </tbody>
+        </table>
+        <p>For each shopper visit to the restaurant, this table has a row detailing:</p>
+        <ol>
+          <li>The date he/she completed the survey</li>
+          <li>The name of the survey</li>
+          <li>The overall grade for that survey</li>
+        </ol>
+        <p><b>How did we get the grade?</b> Simple! Take the grades for each section in the survey and average them.</p>
+        <p><b>Why is that the grade?</b> If you'd like to learn more, you can click the grade in the table and see all of the answers given for that survey.</p>
+        <p><b>What happens when I click the name of the survey?</b> I'm so glad you asked!</p>
+        <p>One of the important parts of this software is to be able to organize the results that we get back and look for trends. By clicking on the survey name, you'll be taken to another page which shows you summary information for each section in that survey.</p>
+        <p>Over there, you can see what questions were asked, how each section fared on average, and more!</p>
+        <div class="alert alert-success"><strong>That's it!</strong> You know all there is to know about this page.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>

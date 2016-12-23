@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="jumbotron" style="padding-left: 40px; padding-right:40px;">
+            <h3>Are you sure?</h3>
+            <p>If you wish to take part in the survey, click  {{#unless complete}}<button class="btn btn-lg btn-primary" {{action 'optIn'}}>HERE</button>{{/unless}} to confirm your choice.</p>
+           
+            <div class="clearfix"></div>
+        </div>
+        {{#if complete}}
+            <div class="alert alert-success">
+                <p><strong>Success!</strong></p>
+                <p>You have accepted the survey assignment.  You should receive an email in the next few days with further instructions.</p>
+                <p>You are free to close this window now.</p>
+            </div>
+        {{/if}}
+    </div>
+</div>
+
+

@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <h1>{{model.subcategory.name}} <small>{{model.items.length}} questions</small></h1>
+    </div>
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>You're looking at the answers shoppers gave for the {{model.subcategory.name}} section of "{{survey.name}}."</h4>
+      <p>Each question in this section and its distribution of answers is shown below.</p>
+      <p><button class="btn btn-default" {{action "showLearnMoreModal" on="click"}}>Learn more</button></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-9">
+      {{#each i in model.sortedItems}}
+        <div class="row">
+          <div class="col-xs-2 col-sm-4">
+            <blockquote>{{i.question.text}}</blockquote>
+          </div>
+          <div class="col-xs-10 col-sm-8">
+            {{#if i.question.openEnded}}
+              {{open-ended-data responses=i.responseData}}
+            {{else}}
+              {{bar-chart data=i.responseData tooltipText=" people gave this answer" showGrade=i.isGraded showUngraded=true}}
+            {{/if}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    <div class="hidden-xs col-sm-3">
+      <div class="section-analytics-sidebar">
+        <div>
+          <h4>Survey results</h4>
+        </div>
+        {{#each sr in survey.surveyResultsInRange}}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="input-group" style="margin-bottom: 5px">
+              <span class="input-group-addon">
+                {{input type="checkbox" checked=sr.selected}}
+              </span>
+              <div class="survey-result-select">Survey taken on {{#link-to 'analytics.restaurant.survey-result' restaurant sr}}<b>{{sr.shortFormattedDate}}</b>{{/link-to}}</div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+<div id="learn-more-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-category-label">Learn more about survey results</h4>
+      </div>
+      <div class="modal-body">
+        <p>Want to know a bit more about what you're looking at? Perfect!</p>
+        <p>This page grabs all of the responses available for one section in a survey (the <b>"{{model.name}}"</b> section of <b>"{{survey.name}}"</b>).</p>
+        <p><b>Missing results?</b> The <em>Start</em> and <em>Stop</em> fields at the top control which results are shown.</p>
+        <p><b>What's the point?</b> Now you can see how different shoppers answers compare to each other for the same questions.</p>
+        <p>You'll recall that <b>surveys</b> have <b>sections</b>, and <b>sections</b> have <b>questions</b>.</p>
+        <p>This page will show you a breakdown for each question in this section (<b>"{{model.name}}"</b>).</p>
+        <p>For open-ended questions, you'll see something like this:</p>
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-comment"></i></h3>
+          </div>
+          <div class="panel-body">
+            <blockquote>
+              <p>"I thought it was perfect!"</p>
+              <footer><a href="javascript:void(0);">11/14/14</a></footer>
+            </blockquote>
+            <blockquote>
+              <p>"Such an excellent time. Please ask me to do this again."</p>
+              <footer><a href="javascript:void(0);">12/14/14</a></footer>
+            </blockquote>
+          </div>
+        </div>
+        <p>To the left of the panel, you can see the question that was asked. Inside of the panel, each response is shown along with a link to when the survey was completed by a particular shopper. Click that link to see all of their answers.</p>
+        <p>For graded questions, you'll see a similar layout, but this time with a bar chart:</p>
+        <ul>
+          <li>Each bar represents one of the possible answers that a shopper could have chosen.</li>
+          <li>The height of the bar represents the number of shoppers that chose the answer. A taller bar means more people chose it.</li>
+          <li>The color of the bar follows a simple scale of <span style="background-color:#d7191c">red</span> to <span style="background-color:#1a9641">green</span>. Red is bad, green is good.</li>
+          <li>You can hover over a bar and be shown how many people gave that answer. If there's no bar, nobody gave that answer.</li>
+        </ul>
+        <p>One last thing! You'll recall that this page shows you the <b>different answers</b> that shoppers gave to the <b>same questions</b>. Each survey that is included in these results can be toggled on the right hand side:</p>
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-8">
+            <div class="input-group" style="margin-bottom: 5px">
+              <span class="input-group-addon">
+                <input type="checkbox" checked>
+              </span>
+              <div class="survey-result-select">Survey taken on <a href="javascript:void(0);"><b>12/14/14</b></a></div>
+            </div>
+          </div>
+        </div>
+        <p>You can click the checkbox to enable/disable the results from being included, and you can click the date to see all of that shopper's answers.</p>
+        <div class="alert alert-success"><strong>That's it!</strong> You know all there is to know about this page.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>

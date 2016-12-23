@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-bar-chart"></i></h3>
+  </div>
+  <div class="panel-body">
+    {{#if showGrade}}
+    <div class="well well-sm">
+      Grade: <b {{bind-attr style=fivePointLetterGradeColorCssStyle}}>{{fivePointLetterGrade}}</b>
+    </div>
+    {{else}}
+      {{#if showUngraded}}
+        <div class="well well-sm">
+          This question is not scored.
+        </div>
+      {{/if}}
+    {{/if}}
+    <div style="text-align:center">
+      <div class="chart"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="jumbotron" style="padding-right: 40px; padding-left: 40px;">
+            <p>{{this.model.assignment.survey.flavorText}}</p>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              {{#if this.model.assignment.survey.showSectionTitles}}
+                  <h4 class="panel-title">{{activeSection.subcategory.name}}</h4>
+              {{/if}}
+            </div>
+            <ul class="list-group">
+                {{#each i in activeSection.orderedResponses}}
+                  <li class="list-group-item">
+                      <p><strong>{{i.question.text}}</strong></p>
+                      {{#if i.question.openEnded}}
+                        {{textarea class="form-control" rows=3 value=i.comment placeholder="Write your answer here. Don't worry, it will automatically be saved."}}
+                      {{else}}
+                        {{#if i.answered}}
+                            <p class="pull-left">Your answer: <span class="label label-primary">{{i.answer.text}}</span></p>
+                            <button class="btn btn-warning pull-right" {{action 'toggleAnswered' null i}}>Edit</button>
+                        {{else}}
+                            <div class="btn-group pull-right" role="group" aria-label="...">
+                              {{#each a in i.question.scale.answers}}
+                                {{#if a.isNA}}
+                                  {{#if i.question.notApplicable}}
+                                      <button type="button" class="btn btn-default" {{action 'toggleAnswered' a i}}>{{a.text}}</button>
+                                  {{/if}}
+                                {{else}}
+                                    <button type="button" class="btn btn-default" {{action 'toggleAnswered' a i}}>{{a.text}}</button>
+                                {{/if}}
+                              {{/each}}
+                            </div>
+                        {{/if}}
+                          <div class="clearfix"></div>
+                      {{/if}}
+                  </li>
+                {{/each}}
+            </ul>
+            <div class="panel-footer">
+                <button {{bind-attr disabled=firstPage class=":btn firstPage:btn-default:btn-info firstPage:disabled :pull-left"}} {{action 'changePage' -1}}>Previous</button>
+                <div class="btn-group pull-right">
+                    <button {{bind-attr disabled=surveyComplete class=":btn lastPage:btn-default:btn-info"}} {{action 'changePage' 1}}>Next</button>
+                    <button {{bind-attr disabled=surveyIncomplete}} {{bind-attr class=":btn surveyComplete:btn-success:btn-default surveyIncomplete:disabled"}} {{action 'submitSurvey'}}>Submit</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="jumbotron" style="padding-left: 20px;">
+            <h3>Progress:</h3>
+            <h1>{{progressPercent}}%</h1>
+        </div>
+    </div>
+</div>
+<div id="loading-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Loading...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success">
+                    <h4>Just a second...</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

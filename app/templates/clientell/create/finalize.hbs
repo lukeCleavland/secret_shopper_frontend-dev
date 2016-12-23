@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong>Almost Done...</strong> Just enter in the information below and hit <span class="label label-primary">Save</span> to save your new survey.
+        </div>
+        <div class="well well-sm" style="margin-top:20px;">
+            <h3 style="margin-top:5px;">Survey Name</h3>
+            {{input type="text" value=build.currentSurvey.name class="form-control" placeholder="Category Name"}}
+            <h3 style="margin-top:20px;">Flavor Text</h3>
+            {{textarea class="form-control" rows=10 value=build.currentSurvey.flavorText placeholder="This is the text that shoppers will see when they take the survey.  It can be instructions, notes, or anything else they may find helpful."}}
+            <h3 style="margin-top:20px;">Show Section Titles</h3>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" {{bind-attr class=":btn build.currentSurvey.showSectionTitles:btn-success:btn-default"}} {{action 'toggleShowSections'}}>Yes</button>
+                <button type="button" {{bind-attr class=":btn build.currentSurvey.showSectionTitles:btn-default:btn-warning"}} {{action 'toggleShowSections'}}>No</button>
+            </div>
+            <button class="btn btn-primary btn-lg pull-right" {{action 'saveNewSurvey'}}>Save</button>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="sending-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Sending...</h4>
+            </div>
+            <div class="modal-body">
+                <p>One moment, please!</p>
+                <p style="text-align:center">
+                    <i class="fa fa-gear fa-spin fa-2x"></i>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="card-container">
+  <div class="card">
+    <blockquote class="subject" style="margin-bottom: 0; font-weight: normal">
+      <div class="header">
+        <div class="clearfix">
+          <div class="pull-left">
+            <div style="width:50px; height:50px; text-align: center">
+              <div class="circle bg-info"><i class="fa fa-cutlery"></i></div>
+            </div>
+          </div>
+          <div class="pull-right">
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <h1 class="lead" style="text-align:center">{{restaurant.name}}</h1>
+        {{#if restaurant.surveyCount}}
+          {{#if isAdmin}}
+          <table class="table table-bordered table-striped" style="font-size: 14px">
+            <thead><tr><th>Date</th><th>Name</th><th>Shopper Email</th><th>Grade</th><th>Controls</th></tr></thead>
+            <tbody>
+            {{#each sr in restaurant.surveyResultsInRange}}
+              <tr><td>{{sr.formattedDate}}</td><td>{{#link-to 'analytics.restaurant.survey' restaurant sr.assignment.survey}}{{sr.assignment.survey.name}}{{/link-to}}</td><td>{{sr.assignment.shopper.email}}</td><td {{bind-attr style=sr.letterGradeBackgroundColorCssStyle}}>{{#link-to 'analytics.restaurant.survey-result' restaurant sr}}{{sr.letterGrade}}{{/link-to}}</td><td><button {{action "deleteResult" sr}}class="btn btn-danger">Delete</button></td></tr>
+            {{/each}}
+            </tbody>
+          </table>
+          {{else}}
+        <table class="table table-bordered table-striped" style="font-size: 14px">
+          <thead><tr><th>Date</th><th>Name</th><th>Grade</th></tr></thead>
+          <tbody>
+            {{#each sr in restaurant.surveyResultsInRange}}
+            <tr><td>{{sr.formattedDate}}</td><td>{{#link-to 'analytics.restaurant.survey' restaurant sr.assignment.survey}}{{sr.assignment.survey.name}}{{/link-to}}</td><td {{bind-attr style=sr.letterGradeBackgroundColorCssStyle}}>{{#link-to 'analytics.restaurant.survey-result' restaurant sr}}{{sr.letterGrade}}{{/link-to}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+          {{/if}}
+        {{else}}
+        <div class="alert alert-warning" style="font-size: 14px;"><strong>Whoops!</strong> No survey results to show.</div>
+        {{/if}}
+      </div>
+    </blockquote>
+  </div>
+</div>

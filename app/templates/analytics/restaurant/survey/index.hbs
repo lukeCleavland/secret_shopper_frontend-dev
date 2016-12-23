@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <h1>{{model.name}} <small>Summary data</small></h1>
+    </div>
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4>There are {{model.surveyResultsInRange.length}} completed results for this survey.</h4>
+      <p>Each section's average grade is shown below, as well as a listing of each section and the questions asked.</p>
+      <p><button class="btn btn-default" {{action "showLearnMoreModal" on="click"}}>Learn more</button></p>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Section grades for this survey</h3>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead><tr><th>#</th><th>Subcategory</th><th>Questions</th><th>Average Grade</th></tr></thead>
+        <tbody>
+          {{#each s in model.sortedSections}}
+            <tr><td>{{s.position}}</td><td>{{s.subcategory.name}}</td><td>{{s.items.length}}</td><td {{bind-attr style=s.letterGradeBackgroundColorCssStyle}}>{{#link-to 'analytics.restaurant.survey.section' restaurant model s.id}}{{s.letterGrade}}{{/link-to}}</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-offset-1 col-sm-10">
+        {{bar-chart data=model.sectionGradesForBarChart tooltipText="% score for this section" showGrade=false percentageColorScale=true}}
+      </div>
+    </div>
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <strong>Wondering what was asked?</strong> Each section and its questions are listed below.
+    </div>
+    {{#each s in model.sortedSections}}
+      <table class="table table-bordered table-striped">
+        <caption>{{s.subcategory.name}}</caption>
+        <thead><tr><th>#</th><th>Question</th><th>Scored</th><th>N/A</th><th>Open-Ended</th></tr></thead>
+        <tbody>
+        {{#each i in s.sortedItems}}
+          <tr>
+            <td>{{i.position}}</td>
+            <td>{{i.question.text}}</td>
+            <td {{bind-attr class="i.question.scored:green"}}>{{#if i.question.scored}}<i class="fa fa-check"></i>{{/if}}</td>
+            <td {{bind-attr class="i.question.notApplicable:green"}}>{{#if i.question.notApplicable}}<i class="fa fa-check"></i>{{/if}}</td>
+            <td {{bind-attr class="i.question.openEnded:green"}}>{{#if i.question.openEnded}}<i class="fa fa-check"></i>{{/if}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+  </div>
+</div>
+<div id="learn-more-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-category-label">Learn more about survey results</h4>
+      </div>
+      <div class="modal-body">
+        <p>Want to know a bit more about what you're looking at? Perfect!</p>
+        <p>This page shows summary data for the results of one survey (<b>"{{model.name}}"</b>).</p>
+        <p><b>Missing results?</b> The <em>Start</em> and <em>Stop</em> fields at the top control which results are shown.</p>
+        <p>Surveys are organized in the following manner:</p>
+        <ul>
+          <li>A survey has <b>sections</b></li>
+          <li>A section has a <b>subcategory</b> and <b>questions</b></li>
+        </ul>
+        <p>The first important piece of data is a table which summarizes the results for each section</p>
+        <table class="table table-bordered table-striped">
+          <thead><tr><th>Subcategory</th><th>Questions</th><th>Average Grade</th></tr></thead>
+          <tbody>
+            <tr><td>Appetizers</td><td>Questions</td><td><a href="javascript:void(0);">A+</a></td></tr>
+          </tbody>
+        </table>
+        <p>For each section in the survey, this table has a row detailing:</p>
+        <ol>
+          <li>The number of questions that were answered (in one survey)</li>
+          <li>The average grade for that section (across all completed surveys)</li>
+        </ol>
+        <p><b>How did we get the grade?</b> Simple! Take the score for that section in each completed survey and average the results.</p>
+        <p><b>Why is that the grade?</b> If you'd like to learn more, you can click the grade in the table and see all of the answers given.</p>
+        <p><b>Looking for something more <em>visual</em>?</b> There's a bar chart with the same information showing section grades!</p>
+        <p>Finally, this page also shows what the survey looked like when it was completed, with a table for each section. Each row shows:</p>
+        <ul>
+          <li>The text of a question</li>
+          <li>Whether or not that question should be 'scored' (affect the grade)</li>
+          <li>Whether or not that question supports 'N/A' answers</li>
+          <li>Whether or not that question supports 'open-ended' answers</li>
+        </ul>
+        <div class="alert alert-success"><strong>That's it!</strong> You know all there is to know about this page.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+

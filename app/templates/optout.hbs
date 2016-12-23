@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="jumbotron" style="padding-left: 40px; padding-right:40px;">
+            <h3>Secret Shopper Assignment Decline</h3>
+            <p>If you <strong>do not</strong> wish to take part in the survey, click  {{#unless complete}}<button class="btn btn-lg btn-primary" {{action 'optOut'}}>HERE</button>{{/unless}} to confirm this choice.</p>
+            <div class="clearfix"></div>
+        </div>
+        {{#if complete}}
+            <div class="alert alert-success">
+                <p><strong>Success!</strong></p>
+                <p>You have <strong>opted out</strong> of the survey assignment.</p>
+                <p>You are free to close this window now.</p>
+            </div>
+        {{/if}}
+    </div>
+</div>

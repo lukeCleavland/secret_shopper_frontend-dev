@@ -1,0 +1,17 @@
+<div class="jumbotron" style="padding-left: 40px; padding-right: 40px">
+    <p>Hello!</p>
+    <p>Please enter the code from your email below and you will be directed to the survey.</p>
+    <p><img src="http://foodfightmarketing.com/shared_files/images/ff_logo.png"></p>
+  {{#if codeError}}
+    <div class="alert alert-danger">
+        <p><strong>Uh Oh...</strong></p>
+        <p>Looks like that code wasn't entered in correctly.  Make sure you've entered it exactly as it appeared in the email we sent you.</p>
+    </div>
+  {{/if}}
+    <div class="input-group">
+        {{input type="text" value=shopCode class="form-control" placeholder="Enter your code here"}}
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" {{action 'submitCode'}}>Let's go!</button>
+        </span>
+    </div><!-- /input-group -->
+</div>

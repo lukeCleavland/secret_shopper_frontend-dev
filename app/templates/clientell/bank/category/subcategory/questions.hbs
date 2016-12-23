@@ -1,0 +1,103 @@
+<div style="padding-top:5px;" data-position="top">
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <p>Here are the questions you've created for this subcategory.  Click on one to edit it.</p>
+        <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnMoreModal'}}>Learn More</button>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Questions</h3>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Text</th>
+                <th>Edit/Delete</th>
+                <th>Open-ended</th>
+                <th>Scored</th>
+                <th>N/A Answers</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each q in this.model}}
+              {{#unless q.isEditing}}
+                  <tr>
+                      <td class="col-sm-4" style="padding: 15px;">
+                        {{q.text}}
+                      </td>
+                      <td class="col-sm-2">
+                          <div class="btn-group" role="group" aria-label="...">
+                              <button type="button" {{action 'editQuestionStart' q}} class="btn btn-sm btn-warning">Edit</button>
+                              <button type="button" {{action 'deleteQuestion' q}} class="btn btn-sm btn-danger">Delete</button>
+                          </div>
+                      </td>
+                      <td class="col-sm-2" style="padding: 15px;">
+                          <strong>{{#if q.openEnded}}<span class="label label-success">Yes</span>{{else}}<span class="label label-danger">No</span>{{/if}}</strong>
+                      </td>
+                      <td class="col-sm-2" style="padding: 15px;">
+                          <strong>{{#if q.scored}}<span class="label label-success">Yes</span>{{else}}<span class="label label-danger">No</span>{{/if}}</strong>
+                      </td>
+                      <td class="col-sm-2" style="padding: 15px;">
+                          <strong>{{#if q.notApplicable}}<span class="label label-success">Yes</span>{{else}}<span class="label label-danger">No</span>{{/if}}</strong>
+                      </td>
+                  </tr>
+              {{else}}
+                  <tr>
+                      <td>
+                        {{input type="text" value=q.text class="form-control" placeholder="New question text..."}}
+                      </td>
+                      <td>
+                          <div class="btn-group" role="group" aria-label="...">
+                              <button type="button" {{action 'editQuestionSave' q}} class="btn btn-sm btn-success">Save</button>
+                              <button type="button" {{action 'cancelEditQuestion' q}} class="btn btn-sm btn-danger">Cancel</button>
+                          </div>
+                      </td>
+                      <td>
+                          <label>
+                            {{input type="checkbox" name="isAdmin" checked=q.openEnded}}
+                              Open-ended
+                          </label>
+                      </td>
+                      <td>
+                          <label>
+                            {{input type="checkbox" name="isAdmin" checked=q.scored}}
+                              Scored
+                          </label>
+                      </td>
+                      <td>
+                          <label>
+                            {{input type="checkbox" name="isAdmin" checked=q.notApplicable}}
+                              Allow N.A.
+                          </label>
+                      </td>
+                  </tr>
+              {{/unless}}
+            {{/each}}
+            </tbody>
+        </table>
+      {{#unless this.model.length}}
+          <div class="panel-body">
+              <strong>There's nothing here!</strong> <span>Click the 'Add new content' button to add some questions.</span>
+          </div>
+      {{/unless}}
+    </div>
+</div>
+<div id="learn-more-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Help</h4>
+            </div>
+            <div class="modal-body">
+                <p>Here's the questions for this subcategory.</p>
+                <p>Click <span class="label label-warning">Edit</span> to change a question's text, or <span class="label label-danger">Delete</span> to remove one.</p>
+                <p><strong>Be careful though!</strong> Deleting questions cannot be undone.</p>
+                <p><strong>Also, </strong>keep in mind that deleting a question will remove it from any survey that it appeared on, and you will lose all of the responses from shoppers who answered this question.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

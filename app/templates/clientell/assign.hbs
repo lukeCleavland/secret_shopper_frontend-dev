@@ -1,0 +1,16 @@
+<div class="row" style="margin-top:20px;">
+    <div class="col-sm-12">
+        <ul class="nav nav-pills nav-justified">
+            <li role="presentation">{{#link-to 'clientell'}}Bank{{/link-to}}</li>
+            <li role="presentation">{{#link-to 'clientell.create'}}Create{{/link-to}}</li>
+            <li role="presentation" class="active"><a href="javascript:void(0);">Assign</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-12" style="margin-top:20px;">
+        <ol class="breadcrumb">
+            <li>{{#link-to 'clientell.assign.new'}}New Assignment{{/link-to}}</li>
+            <li>{{#link-to 'clientell.assign.outstanding'}}Outstanding Assignments{{/link-to}}</li>
+        </ol>
+    </div>
+</div>
+{{outlet}}

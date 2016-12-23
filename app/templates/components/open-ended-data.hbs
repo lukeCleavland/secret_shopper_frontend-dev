@@ -1,0 +1,13 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-comment"></i></h3>
+  </div>
+  <div class="panel-body">
+  {{#each r in responses}}
+    <blockquote>
+      <p>"{{r.comment}}"</p>
+      <footer>Survey taken on <b>{{#link-to 'analytics.restaurant.survey-result' r.surveyResult.assignment.restaurant r.surveyResult}}{{r.surveyResult.shortFormattedDate}}{{/link-to}}</b></footer>
+    </blockquote>
+  {{/each}}
+  </div>
+</div>

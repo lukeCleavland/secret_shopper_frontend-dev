@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <p>Available sections are listed below, click <span class="label label-primary">Add</span> to add them to the survey.</p>
+            <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnMoreModal'}}>Learn More</button>
+        </div>
+      {{#if this.model.length}}
+        {{#each c in this.model}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title pull-left">{{c.name}}</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <ul class="panel-body list-group">
+                  {{#each s in c.subcategories}}
+                      <li class="list-group-item">
+                          <p class="pull-left">{{s.name}}</p>
+                          <button {{bind-attr class=":btn s.addedToSurvey:btn-default:btn-primary :pull-right s.addedToSurvey:disabled"}} {{action 'addSubcategory' s}}>Add</button>
+                          <div class="clearfix"></div>
+                      </li>
+                  {{/each}}
+                </ul>
+            </div>
+        {{/each}}
+      {{else}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Uh-oh...</h3>
+              </div>
+              <div class="panel-body">
+                  <strong>There's nothing here!</strong> <span>Click the <span class="label label-primary">Bank</span> button above to get started.</span>
+              </div>
+          </div>
+      {{/if}}
+    </div>
+    <div class="col-sm-6">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <p>Added sections are listed below, click <span class="label label-danger">&times;</span> to remove them from the survey.</p>
+            <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnModal'}}>Learn More</button>
+        </div>
+      {{#if currentSurvey.sections.length}}
+        {{#each s in currentSurvey.sortedSections}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title pull-left"><strong>{{s.position}}. </strong>{{s.subcategory.name}}</h3>
+                    <div class="btn-group pull-right" role="group" aria-label="...">
+                        <button type="button" class="btn btn-info" {{action 'moveSection' s -1}}>&uparrow;</button>
+                        <button type="button" class="btn btn-info" {{action 'moveSection' s 1}}>&downarrow;</button>
+                        <button type="button" class="btn btn-danger" {{action 'removeSection' s}}>&times;</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <ul class="panel-body list-group">
+                  {{#each i in s.sortedItems}}
+                      <li class="list-group-item">
+                          <p class="pull-left"><strong>{{i.position}}. </strong>{{i.question.text}}</p>
+                          <div class="btn-group pull-right" role="group" aria-label="...">
+                              <button type="button" class="btn btn-info" {{action 'moveItem' s i -1}}>&uparrow;</button>
+                              <button type="button" class="btn btn-info" {{action 'moveItem' s i 1}}>&downarrow;</button>
+                              <button type="button" class="btn btn-danger" {{action 'removeItem' s i}}>&times;</button>
+                          </div>
+                          <div class="clearfix"></div>
+                      </li>
+                  {{/each}}
+                </ul>
+            </div>
+        {{/each}}
+      {{else}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Empty.</h3>
+              </div>
+              <div class="panel-body">
+                  <span>Click the <span class="label label-primary">Add</span> button next to a section to start building your survey.</span>
+              </div>
+          </div>
+      {{/if}}
+        <button class="btn btn-primary pull-right" {{action 'finalizeSurvey'}}>Finish Your Survey</button>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div id="learn-more-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Help</h4>
+            </div>
+            <div class="modal-body">
+                <p>This is where surveys actually get built.</p>
+                <p>Click <span class="label label-primary">Add</span> on any section in the list to the left to add it to your current survey, along with all questions within that section.
+                <p>Once a section is added, it will show up in the list to the right and you can rearrange it within the survey using the arrows, or remove it with the <span class="label label-danger">&times;</span> button.</p>
+                <p>Once everything looks the way you desire, simply hit <span class="label label-primary">Finish your survey</span> to name it and write the shopper's instructions.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

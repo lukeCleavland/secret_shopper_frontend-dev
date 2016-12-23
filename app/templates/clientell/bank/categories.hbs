@@ -1,0 +1,76 @@
+<div style="padding-top:5px;" data-position="top">
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <p>Here are the categories you've created.  Click on one to view its subcategories.</p>
+      <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnMoreModal'}}>Learn More</button>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Survey content</h3>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Edit/Delete</th>
+          <th>Subcategories</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each c in this.model}}
+        {{#unless c.isEditing}}
+          <tr>
+            <td class="col-sm-3" style="padding: 15px;">
+              {{#link-to 'clientell.bank.category' c}}{{c.name}}{{/link-to}}
+            </td>
+            <td class="col-sm-3" >
+              <div class="btn-group" role="group" aria-label="...">
+                <button type="button" {{action 'editCategoryStart' c}} class="btn btn-sm btn-warning">Edit</button>
+                <button type="button" {{action 'deleteCategory' c}} class="btn btn-sm btn-danger">Delete</button>
+              </div>
+            </td>
+            <td class="col-sm-2" style="padding: 15px;"><span class="badge">{{c.subcategories.length}}</span></td>
+          </tr>
+        {{else}}
+          <tr>
+            <td class="col-sm-6">
+              {{input type="text" value=c.name class="form-control" placeholder="New category name..."}}
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="...">
+                <button type="button" {{action 'editCategorySave' c}} class="btn btn-sm btn-success">Save</button>
+                <button type="button" {{action 'cancelEditCategory' c}} class="btn btn-sm btn-danger">Cancel</button>
+              </div>
+            </td>
+            <td></td>
+          </tr>
+        {{/unless}}
+        {{/each}}
+      </tbody>
+    </table>
+    {{#unless this.model.length}}
+    <div class="panel-body">
+      <strong>There's nothing here!</strong> <span>Click the 'Add new content' button to add your first survey category.</span>
+    </div>
+    {{/unless}}
+  </div>
+</div>
+<div id="learn-more-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Help</h4>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to Clientell!</p>
+                <p>Here you can create questions and surveys for your secret shopper program, as well as send out new assignments to your shoppers.</p>
+                <p>Click <span class="label label-warning">Edit</span> to change a category name, or <span class="label label-danger">Delete</span> to remove one.</p>
+                <p><strong>Be careful though!</strong> Deleting categories cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

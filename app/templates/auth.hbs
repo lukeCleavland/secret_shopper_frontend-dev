@@ -1,0 +1,42 @@
+{{render "navbar"}}
+
+<form {{action 'login' on='submit'}} role="form" class="form-horizontal">
+  {{#if this.unauthorized}}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>Whoops!</strong> You'll need to log in to access that part.</div>
+      </div>
+    </div>
+  {{/if}}
+  <div {{bind-attr class=":form-group errors.email:has-error"}}>
+    <label for="email" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      {{input value=email type='email' class="form-control" placeholder='Email address'}}
+      <span class="help-block">{{errors.email}}</span>
+    </div>
+  </div>
+  <div {{bind-attr class=":form-group errors.password:has-error"}}>
+    <label for="password" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-10">
+      {{input value=password type='password' class="form-control" placeholder='Password'}}
+      <span class="help-block">{{errors.password}}</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      {{input type='submit' class="btn btn-primary" value='Log in'}}
+    </div>
+  </div>
+  {{#if errors.non_field_errors}}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Oops!</strong> {{errors.non_field_errors}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</form>

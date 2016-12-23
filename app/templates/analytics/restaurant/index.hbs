@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <h1>{{model.name}} <small>Data</small></h1>
+    </div>
+    {{#unless model.surveysInRange}}
+      <div class="row">
+        <div class="col-sm-offset-2 col-sm-8">
+          <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong>Heads up!</strong> There's no survey data to show for the dates selected.
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+    {{#each s in model.surveysInRange}}
+      {{survey-card survey=s}}
+    {{/each}}
+  </div>
+</div>

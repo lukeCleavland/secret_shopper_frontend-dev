@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <p>These are the surveys that have already been created.  Click on <span class="label label-success">Load</span> to start building form it, ot click <span class="label label-primary">New Survey</span> to build one from scratch.</p>
+            <button class="btn btn-default" style="margin-top: 10px;" {{action 'showLearnMoreModal'}}>Learn More</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Existing Surveys</h3>
+            </div>
+            {{#if this.model.length}}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Delete</th>
+                    <th>Length</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each s in this.model}}
+                {{#unless s.hidden}}
+                    <tr>
+                        <td class="col-sm-6">
+                          {{s.name}}
+                        </td>
+                        <td class="col-sm-3">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button class="btn btn-success" {{action 'initializeSurveyFromExisting' s}}>Load</button>
+                                <button class="btn btn-danger" {{action 'hideSurvey' s}}>Delete</button>
+                            </div>
+                        </td>
+                        <td class="col-sm-3">
+                          {{s.sections.length}} sections
+                        </td>
+                    </tr>
+                {{/unless}}
+                {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+                <div class="panel-body">
+                    <strong>There's nothing here!</strong> <span>Click the <span class="label label-primary">New Survey</span> button to get started.</span>
+                </div>
+            {{/if}}
+        </div>
+        <button class="btn btn-lg btn-primary pull-right" {{action 'newSurvey'}}>New Survey</button>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div id="learn-more-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loading-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-category-label">Help</h4>
+            </div>
+            <div class="modal-body">
+                <p>This is where you start making surveys.</p>
+                <p>Click <span class="label label-success">Load</span> to create a new survey using an existing one as a base, or <span class="label label-danger">Delete</span> to remove one.  Removing surveys doesn't delete responses that you have already collected, but you <strong>will not</strong> be able to use them in the future.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
